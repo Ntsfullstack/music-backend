@@ -1,11 +1,50 @@
 const mongoose = require('mongoose');
+const Joi = require("joi");
 
+// Định nghĩa schema cho Song
 const SongSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  artist: { type: String, required: true },
-  genre: { type: String, required: true },
-  s3Url: { type: String, required: true },
-  uploadedAt: { type: Date, default: Date.now },
+  name: {
+    type: String,
+    required: true,
+    minlength: 1,
+    maxlength: 255,
+  },
+  singer: {
+    type: String,
+    required: true,
+    minlength: 1,
+    maxlength: 255,
+  },
+  song: {
+    type: String,
+    required: true,
+    minlength: 1,
+    maxlength: 255,
+  },
+  img: {
+    type: String,
+    required: true,
+  },
+  duration: {
+    type: Number,
+    required: true,
+  },
 });
 
-module.exports = mongoose.model('Song', SongSchema);
+// Hàm validate với Joi
+const validateSong = (song) => {
+  const schema = Joi.object({
+    name: Joi.string().min(1).max(255).required(),
+    singer: Joi.string().min(1).max(255).required(),
+    song: Joi.string().min(1).max(255).required(),
+    img: Joi.string().required(),
+    duration: Joi.number().required(),
+  });
+
+  return schema.validate(song); // Trả về kết quả validate
+};
+const Song = mongoose.model("Song", SongSchema);
+module.exports = {
+  Song,
+  validateSong
+};
