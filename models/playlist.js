@@ -22,13 +22,24 @@ const playlistSchema = new mongoose.Schema({
         required: true,
         minlength: 1,
         maxlength: 255,
-    }, });
+    }, 
+    Image: {
+        type: String,
+        required: true,
+    },
+});
     const validate = (playlist) => {
         const schema = Joi.object({
             name: Joi.string().min(1).max(255).required(),
             user: Joi.objectId().required(),
             songs: Joi.array().items(Joi.objectId()),
             description: Joi.string().min(1).max(255).required(),
+            Image: Joi.string().required(),
         });
         return schema.validate(playlist);
     }
+    const Playlist = mongoose.model("Playlist", playlistSchema);
+    module.exports = {
+        Playlist,
+        validate
+    };
