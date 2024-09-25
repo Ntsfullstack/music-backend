@@ -3,7 +3,7 @@ const { User, validate } = require('../models/user'); // Ensure validate is impo
 const bcrypt = require('bcrypt');
 const auth = require('../middlewares/auth');
 const admin = require('../middlewares/admin');
-const validateObjectId = require('../middlewares/validateObjectId');
+const validateObjectId = require('../middlewares/validObjectId');
 
 // Create user
 router.post("/", async (req, res) => {
@@ -61,8 +61,9 @@ router.put("/:id", [auth, validateObjectId], async (req, res) => {
     
 });
 //delete user by id
-router.delete("/:id", [ admin, validateObjectId], async (req, res) => {
+router.delete("/:id", [admin, validateObjectId], async (req, res) => {
     await User.findByIdAndDelete(req.params.id);
-    res.status(200).send({message: "User deleted successfully."});
+    res.status(200).send({ message: "User deleted successfully." });
 });
+
 module.exports = router;
