@@ -7,6 +7,7 @@ const userRoutes = require("./routes/users");
 const authRoutes = require("./routes/auth");
 const songRoutes = require("./routes/songs");
 const playlistRoutes = require("./routes/playlist");
+const searchRoutes = require("./routes/search");
 const app = express();
 
 // Kết nối tới cơ sở dữ liệu
@@ -17,6 +18,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/login', authRoutes);
 app.use('/api/songs', songRoutes);
 app.use('/api/playlists', playlistRoutes);
+app.use('/api/search', searchRoutes);
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {

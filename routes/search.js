@@ -10,8 +10,10 @@ const songs = await Song.find({name: { $regex: search, $options: 'i' }}).limit(1
 const playlists = await Playlist.find({name: { $regex: search, $options: 'i' }}).limit(10);
 const result = { songs, playlists };
 res.status(200).send({ data: result });
+
 } else {
 res.status(400).send("Invalid search query.");
 }
 
 });
+module.exports = router;
