@@ -36,3 +36,29 @@ router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
     if (!song) return res.status(404).send("Song not found.");
     res.status(200).send({ data: song, message: "Song deleted successfully." });
 });
+//like song
+router.put("/like/:id", [auth, validateObjectId], async (req, res) => {
+    let resMessage = "";
+    const song = await Song.findById(req.params.id);
+   if (!song) return res.status(404).send("Song not found.");
+   const user = await User.findById(req.user._id);
+   const index = user.likedSongs.indexOf(req.params.id);
+   if (index === -1) {
+    user.likedSongs.push(song._id);
+    resMessage = "Song liked successfully.";
+   } else {
+    user.likedSongs.splice(index, 1);
+    resMessage = "Song unliked successfully.";
+   }
+   res.status(200).send({ data: song, message: resMessage });
+});
+//get all liked songs
+router.get("/liked", auth, async (req, res) => {
+    const user = await User.findById(req.user._id).populate("likedSongs");
+    const songs = await Song.find({ _id: { $in: user.likedSongs } });
+    res.status(200).send({ data: songs });
+}
+);
+module.exports = router;
+
+
