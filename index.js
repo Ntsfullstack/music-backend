@@ -8,6 +8,7 @@ const authRoutes = require("./routes/auth");
 const songRoutes = require("./routes/songs");
 const playlistRoutes = require("./routes/playlist");
 const searchRoutes = require("./routes/search");
+const categoryRoutes = require("./routes/categories");
 const app = express();
 
 // Kết nối tới cơ sở dữ liệu
@@ -15,6 +16,7 @@ connection();
 app.use(cors());
 app.use(express.json());
 app.use('/api/users', userRoutes);
+app.use('/api/categories',categoryRoutes);
 app.use('/api/login', authRoutes);
 app.use('/api/songs', songRoutes);
 app.use('/api/playlists', playlistRoutes);
